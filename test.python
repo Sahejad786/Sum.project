@@ -1,0 +1,39 @@
+import time
+
+class Timer:
+    def __init__(self, name, duration):
+        self.name = name
+        self.duration = duration
+        self.remaining_time = duration
+        self.is_running = False
+
+    def start(self):
+        self.is_running = True
+        print(f"Timer '{self.name}' started for {self.duration} seconds.")
+        while self.remaining_time > 0 and self.is_running:
+            mins, secs = divmod(self.remaining_time, 60)
+            timer_format = f"{mins:02d}:{secs:02d}"
+            print(timer_format, end="\r")
+            time.sleep(1)
+            self.remaining_time -= 1
+        
+        if self.remaining_time == 0:
+            self.alert()
+
+    def pause(self):
+        self.is_running = False
+        print(f"Timer '{self.name}' paused with {self.remaining_time} seconds remaining.")
+
+    def resume(self):
+        self.is_running = True
+        print(f"Timer '{self.name}' resumed.")
+        self.start()
+
+    def reset(self):
+        self.remaining_time = self.duration
+        print(f"Timer '{self.name}' reset to {self.duration} seconds.")
+
+    def alert(self):
+        print(f"Time's up for '{self.name}'!")
+        # Optional: Play a sound using playsound module
+        # playsound('alert_sound.mp3')
